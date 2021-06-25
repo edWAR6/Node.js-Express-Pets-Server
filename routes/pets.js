@@ -38,7 +38,10 @@ router.post('/', function(req, res) {
   const description = req.body.description;
 
   const pet = new Pet(name, age, species, race, picture, description);
-  pets.push(pet);
+  
+  let pets = mongodb.getPetsCollection();
+
+  pets.insertOne(pet);
 
   res.sendStatus(200);
 });

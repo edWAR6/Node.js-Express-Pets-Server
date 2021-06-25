@@ -358,7 +358,27 @@ router.get('/', function(req, res) {
 });
 ```
 
+54. Modifique el endpoint del post a la ruta '/' en pets.js de la siguiente manera.
+```js
+router.post('/', function(req, res) {
+  const name = req.body.name;
+  const age = req.body.age;
+  const species = req.body.species;
+  const race = req.body.race;
+  const picture = req.body.picture;
+  const description = req.body.description;
 
+  const pet = new Pet(name, age, species, race, picture, description);
+  
+  let pets = mongodb.getPetsCollection();
+
+  pets.insertOne(pet);
+
+  res.sendStatus(200);
+});
+```
+
+55. Ejecute el server nuevamente y verifique las funcionalidades. Si es necesario agregar imágenes nuevas, puede hacerlo.
 
 
 ## Conclusión
