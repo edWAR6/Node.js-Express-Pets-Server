@@ -380,6 +380,29 @@ router.post('/', function(req, res) {
 
 55. Ejecute el server nuevamente y verifique las funcionalidades. Si es necesario agregar imágenes nuevas, puede hacerlo.
 
+56. Modifique el endpoint del get a '/:name' en pets.js.
+```js
+router.get('/:name', function(req, res) {
+  const name = req.params.name;
+
+  let pets = mongodb.getPetsCollection();
+
+  const pet = pets.find({name}).toArray((err, result) => {
+    if (err) {
+      res.sendStatus(500);
+    } else if (result.length === 0) {
+      res.sendStatus(404);
+    } else {
+      res.json(result);
+    }
+  });
+});
+```
+
+57. Verifique los cambios.
+
+58.
+
 
 ## Conclusión
 

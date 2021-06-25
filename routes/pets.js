@@ -49,8 +49,17 @@ router.post('/', function(req, res) {
 router.get('/:name', function(req, res) {
   const name = req.params.name;
 
-  const pet = pets.find(pet => pet.name === name);
-  res.json(pet);
+  let pets = mongodb.getPetsCollection();
+
+  const pet = pets.find({name}).toArray((err, result) => {
+    if (err) {
+      res.sendStatus(500);
+    } else if (result.length === 0) {
+      res.sendStatus(404);
+    } else {
+      res.json(result);
+    }
+  });
 });
 
 router.delete('/:name', function(req, res){
