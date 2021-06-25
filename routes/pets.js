@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const ObjectId = require('mongodb').ObjectId; 
 const mongodb = require('../database/mongodbUtil');
 
 const Pet = require('../models/pet.js');
@@ -46,12 +47,12 @@ router.post('/', function(req, res) {
   res.sendStatus(200);
 });
 
-router.get('/:name', function(req, res) {
-  const name = req.params.name;
+router.get('/:id', function(req, res) {
+  const id = req.params.id;
 
   let pets = mongodb.getPetsCollection();
 
-  const pet = pets.find({name}).toArray((err, result) => {
+  const pet = pets.find({_id: new ObjectId(id)}).toArray((err, result) => {
     if (err) {
       res.sendStatus(500);
     } else if (result.length === 0) {
@@ -62,10 +63,14 @@ router.get('/:name', function(req, res) {
   });
 });
 
-router.delete('/:name', function(req, res){
-  const name = req.params.name;
+router.delete('/:id', function(req, res){
+  console.log(1);
+  const id = req.params.id;
 
-  pets = pets.filter(pet => pet.name !== name);
+  let pets = mongodb.getPetsCollection();
+
+  pets.deleteOne({_id: new ObjectId(id)});
+
   res.sendStatus(200);
 });
 

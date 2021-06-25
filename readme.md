@@ -380,14 +380,19 @@ router.post('/', function(req, res) {
 
 55. Ejecute el server nuevamente y verifique las funcionalidades. Si es necesario agregar imágenes nuevas, puede hacerlo.
 
+56. Agregue el siguiente require.
+```js
+const ObjectId = require('mongodb').ObjectId; 
+```
+
 56. Modifique el endpoint del get a '/:name' en pets.js.
 ```js
-router.get('/:name', function(req, res) {
-  const name = req.params.name;
+router.get('/:id', function(req, res) {
+  const id = req.params.id;
 
   let pets = mongodb.getPetsCollection();
 
-  const pet = pets.find({name}).toArray((err, result) => {
+  const pet = pets.find({_id: new ObjectId(id)}).toArray((err, result) => {
     if (err) {
       res.sendStatus(500);
     } else if (result.length === 0) {
@@ -401,8 +406,21 @@ router.get('/:name', function(req, res) {
 
 57. Verifique los cambios.
 
-58.
+58. Modifique el endpoint del delete de la siguiente manera.
+```js
+router.delete('/:id', function(req, res){
+  console.log(1);
+  const id = req.params.id;
 
+  let pets = mongodb.getPetsCollection();
+
+  pets.deleteOne({_id: new ObjectId(id)});
+
+  res.sendStatus(200);
+});
+```
+
+59. Verifique que todos los endpoints funcionen correctamente.
 
 ## Conclusión
 
