@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const mongodb = require('./database/mongodbUtil');
 const app = express();
 const port = 3000;
 
@@ -7,6 +8,10 @@ const port = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
+
+mongodb.connect(err => {
+  if (err) console.error(err);
+});
 
 const home = require('./routes/home.js');
 const pets = require('./routes/pets.js');

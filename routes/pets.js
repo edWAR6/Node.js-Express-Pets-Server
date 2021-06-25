@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongodb = require('../database/mongodbUtil');
 
 const Pet = require('../models/pet.js');
 
@@ -15,9 +16,17 @@ router.get('/', function(req, res) {
   const page = req.query.page ?? 1;
   const limit = req.query.limit ?? 3;
 
-  let paginatedResult = pets.slice((page -1) * limit, page * limit);
+  let pets = mongodb.getPetsCollection();
 
-  res.json(paginatedResult);
+  pets.find().skip((page -1) * limit).limit(page * limit).toArray((err, result) => {
+    if (err) {
+      res.sendStatus(500);
+    } else if (result.length === 0) {
+      res.sendStatus(404);
+    } else {
+      res.json(result);
+    }
+  });
 });
 
 router.post('/', function(req, res) {
