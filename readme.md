@@ -422,6 +422,127 @@ router.delete('/:id', function(req, res){
 
 59. Verifique que todos los endpoints funcionen correctamente.
 
+### UI
+
+60. Agregue el siguiente html al body del home.html.
+```html
+  <div class="sidebar">
+    <h2>Add a PET</h2>
+    <form method="POST" action="/pets">
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name">
+
+      <label for="age">Age:</label>
+      <input type="number" name="age" id="age">
+
+      <label for="species">Species:</label>
+      <select name="species" id="species">
+        <option value="cat">Cat</option>
+        <option value="dog">Dog</option>
+      </select>
+
+      <label for="race">Race:</label>
+      <input type="text" name="race" id="race">
+
+      <label for="picture">Picture:</label>
+      <input type="text" name="picture" id="picture">
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" rows="4"></textarea>
+
+      <br>
+      <input type="submit" value="Save">
+    </form>
+  </div>
+  <div class="content">
+    <header><h1>PETS.com</h1></header>
+    <div class="pets">
+      <!-- Pets goes here -->
+    </div>
+    <footer>Footer Content — PETS.com 2021</footer>
+  </div>
+```
+
+61. En el directorio público, cree un folder "css" y dentro un archivo "home.css" con el siguiente código.
+```css
+body {
+  display: grid;
+  grid-template-columns: minmax(150px, 25%) 1fr;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar {
+  height: 100%;
+  background: lightpink;
+  padding: 2rem;
+}
+
+.content {
+  padding: 2rem;
+}
+
+body {
+  font-family: system-ui, serif;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  max-width: 25em;
+}
+```
+
+62. Asegúrese de incluir el archivo al head del html.
+```html
+  <title>PETS</title>
+  <link rel="stylesheet" href="css/home.css">
+```
+
+63. En la ruta de pets, cambie la última línea en el post por la siguiente.
+```javascript
+res.redirect('/');
+```
+
+64. Elimine el arreglo de pets del archivo de la ruta, ya no es necesario.
+
+65. Finalmente cambie el javascript de home.js por el siguiente.
+```javascript
+const dogs = document.querySelector('.pets');
+
+function loadSomePets() {
+  fetch('/pets?page=1&limit=5')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      data.forEach(pet => {
+        const img = document.createElement('img');
+        img.src = `images/${pet.picture}`;
+        
+        const name = document.createElement('p');
+        name.textContent = pet.name;
+
+        const description = document.createElement('p');
+        description.textContent = pet.description;
+
+        const hr = document.createElement('hr');
+
+        dogs.appendChild(img);
+        dogs.appendChild(name);
+        dogs.appendChild(description);
+        dogs.appendChild(hr);
+      });
+    });
+}
+
+loadSomePets();
+```
+
+66. Ejecute la aplicación.
+
 ## Conclusión
 
 Node.js no solo nos permite ejecutar código javascript en el server, si no que también nos provee de datos y archivos estáticos.
