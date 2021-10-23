@@ -1,4 +1,6 @@
-# Taller de JavaScript
+# Taller de Node.js con Express y MongoDB
+
+![Resultado](/result.png)
 
 Autor: Eduardo Oviedo Blanco
 
@@ -30,12 +32,27 @@ Este taller tiene como propósito llevar al estudiante por los conceptos básico
 ```bash
 npm init
 ```
-2. Asegurese de revisar y entender el archivo creado.
+2. Asegurese de revisar y analizar el archivo creado.
 3. Instale la dependencia *express*, con el siguiente comando.
 ```bash
 npm install express
 ```
-4. Revisa el server de *Express* ya existente en app.js y ejecútalo con el comando.
+4. Cree un server de *Express* en `app.js`.
+```js
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}!`)
+});
+```
+
+5. ejecútalo con el comando.
 ```bash
 node app.js
 ```
